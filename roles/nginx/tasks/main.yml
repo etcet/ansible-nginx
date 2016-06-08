@@ -1,0 +1,19 @@
+---
+
+- name: Install EPEL
+  yum: name=epel-release state=present 
+  tags: nginx
+
+- name: Install nginx
+  yum: name=nginx state=present 
+  tags: nginx
+
+- name: Copy nginx.conf
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=root group=root mode=0644 setype='httpd_config_t'
+  notify: restart nginx
+  tags: nginx
+
+- name: Enable and start nginx
+  service: name=nginx state=started enabled=yes
+  tags: nginx
+
